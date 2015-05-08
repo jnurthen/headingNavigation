@@ -41,3 +41,10 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+
+# Node Modules       #
+######################
+# npm install should be run locally, don't check in those files
+node_modules
