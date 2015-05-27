@@ -48,3 +48,5 @@ Temporary Items
 ######################
 # npm install should be run locally, don't check in those files
 node_modules
+/HTML5Application/nbproject/private/
+/nbproject/private/

@@ -1,4 +1,4 @@
-/*! headingNavigation - v2.0.0 - 2015-05-08
+/*! headingNavigation - v2.0.0 - 2015-05-27
 * Copyright (c) 2015 ; Licensed BSD */
  /*@cc_on @*/
 /*@if (@_jscript_version >= 5.8) @*/
@@ -299,7 +299,6 @@ if (!Array.prototype.indexOf) {
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * ======================================================================== */
 
-
 (function (appConfig) {
 	"use strict";
 	var SkipTo = {};
@@ -462,11 +461,11 @@ if (!Array.prototype.indexOf) {
 			
 			function getText(e, strings) {
 				// If text node get the text and return
-				if( e.nodeType === Node.TEXT_NODE ) {
+				if( e.nodeType === 3 ) {
 					strings.push(e.data);
 				} else {
 					// if an element for through all the children elements looking for text
-					if( e.nodeType === Node.ELEMENT_NODE ) {
+					if( e.nodeType === 1 ) {
 					// check to see if IMG or AREA element and to use ALT content if defined
 						var tagName = e.tagName.toLowerCase();
 						if((tagName === 'img') || (tagName === 'area')) {
@@ -710,17 +709,19 @@ if (!Array.prototype.indexOf) {
 			}*/
 
 			for (key in this.headingElementsArr) {
-				if (headingSep) {
-					htmlStr += '<li role="separator" style="list-style:none outside none">' + this.config.headingsLabel + '</li>';
-					headingSep = false;
+				if (this.headingElementsArr[key].name){
+					if (headingSep) {
+						htmlStr += '<li role="separator" style="list-style:none outside none">' + this.config.headingsLabel + '</li>';
+						headingSep = false;
+					}
+					val = this.headingElementsArr[key].name;
+					
+					headingClass = val.substring(0,2);
+					
+					htmlStr += '<li role="presentation" style="list-style:none outside none"><a class="po-' + headingClass + '" tabindex="-1" role="menuitem" href="#';
+					htmlStr += key + '" data-frame="'+this.headingElementsArr[key].frame+'" data-id="'+this.headingElementsArr[key].id+'">' + val;
+					htmlStr += '</a></li>';
 				}
-				val = this.headingElementsArr[key].name;
-				
-				headingClass = val.substring(0,2);
-				
-				htmlStr += '<li role="presentation" style="list-style:none outside none"><a class="po-' + headingClass + '" tabindex="-1" role="menuitem" href="#';
-				htmlStr += key + '" data-frame="'+this.headingElementsArr[key].frame+'" data-id="'+this.headingElementsArr[key].id+'">' + val;
-				htmlStr += '</a></li>';
 			}
 
 			return htmlStr;
@@ -839,7 +840,7 @@ if (!Array.prototype.indexOf) {
 			}
 
 			items.item(index).focus();
-		},
+		}
 
 
 		
