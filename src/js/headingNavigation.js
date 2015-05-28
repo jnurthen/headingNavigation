@@ -69,7 +69,7 @@
 				div.setAttribute('role', 'complementary');
 				div.setAttribute('title', 'Skip To Keyboard Navigation');
 				this.addStyles("@@cssContent");
-				this.dropdownHTML = '<a accesskey="'+ this.config.accessKey +'" tabindex="0" data-wrap="'+ this.config.wrap +'"class="dropMenu-toggle skipTo '+ this.config.visibility + ' '+ this.config.customClass +'" id="drop4" role="button" aria-haspopup="true" ';
+				this.dropdownHTML = '<a accesskey="'+ this.config.accessKey +'" tabindex="1" data-wrap="'+ this.config.wrap +'"class="dropMenu-toggle skipTo '+ this.config.visibility + ' '+ this.config.customClass +'" id="drop4" role="button" aria-haspopup="true" ';
 				this.dropdownHTML += 'aria-expanded="false" data-toggle="dropMenu" href="#" data-target="menu1">' + this.config.buttonLabel + '<b class="caret"></b></a>';
 			}
 			else {
@@ -432,7 +432,6 @@
 					val = this.headingElementsArr[key].name;
 					
 					headingClass = val.substring(0,2);
-					
 					htmlStr += '<li role="presentation" style="list-style:none outside none"><a class="po-' + headingClass + '" tabindex="-1" role="menuitem" href="#';
 					htmlStr += key + '" data-frame="'+this.headingElementsArr[key].frame+'" data-id="'+this.headingElementsArr[key].id+'">' + val;
 					htmlStr += '</a></li>';
