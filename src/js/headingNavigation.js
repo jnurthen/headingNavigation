@@ -168,6 +168,18 @@
 			}
 		},
 
+		isHidden: function (e) {
+			if (e.offsetWidth === 0 && e.offsetHeight === 0 && e.offsetTop === 0 && e.offsetLeft === 0)
+			{
+				return true;
+			}
+			else {
+				if (e.height === '0px' && e.overflow === 'hidden' && e.position === 'absolute')
+					return true;
+				return false;
+			}
+		},
+		
 		normalizeName: function (name) {
 			return name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		},
@@ -261,7 +273,40 @@
 
 			return(html !== null);
 		},
-		
+		findCorrectTabindex: function (e) {
+			var navigableItems = e.ownerDocument.querySelectorAll('input, button, select, textarea, a[href], [tabindex], '+this.config.headings),
+				i,
+				j,
+				k,
+				l,
+				previousTabindex;
+			for (i = 0, j= navigableItems.length; i < j; i = i + 1) {
+				if (e === navigableItems[i]){
+					if (previousTabindex){
+						return previousTabindex;
+					}
+					else {
+						for (k = i + 1, l=navigableItems.length; k < l; k = k + 1) {
+							if (['H1','H2','H3','H4','H5','H6'].indexOf(navigableItems[k].tagName) === -1 ){
+								if (navigableItems[k].hasAttribute('tabindex')){
+									return navigableItems[k].getAttribute('tabindex');
+								}
+								else {
+									return '0';
+								}
+							}
+						}
+					}
+				}
+				if (navigableItems[i].hasAttribute('tabindex')){
+					previousTabindex = navigableItems[i].getAttribute('tabindex');
+				}
+				else
+				{
+					previousTabindex = '0';
+				}
+			}
+		},
 		getHeadings: function () {
 			var targets = this.config.headings;
 			if (typeof targets !== 'string' || targets.length === 0) return;
@@ -275,20 +320,24 @@
 			this.headingElementsArr = {};
 			for (i = 0, j = headings.length; i < j; i = i + 1) {
 				heading = headings[i];
-				id = heading.getAttribute('id') || heading.innerHTML.replace(/\s+/g, '_').toLowerCase().replace(/[&\/\\#,+()$~%.'"!:*?<>{}¹]/g, '') + '_' + i;
-				heading.tabIndex = "-1";
-				heading.setAttribute('id', id);
-				this.headingElementsArr[id] = {id: id, name: heading.tagName.toLowerCase() + ": " + this.getTextContent(heading),   frame: ''};
+				if (!this.isHidden(heading)){
+					id = heading.getAttribute('id') || heading.innerHTML.replace(/\s+/g, '_').toLowerCase().replace(/[&\/\\#,+()$~%.'"!:*?<>{}¹]/g, '') + '_' + i;
+					heading.tabIndex = this.findCorrectTabindex(heading);
+					heading.setAttribute('id', id);
+					this.headingElementsArr[id] = {id: id, name: heading.tagName.toLowerCase() + ": " + this.getTextContent(heading),   frame: ''};
+				}
 			}
 			for (f = 1, g = this.numberOfFrames; f <= g; f = f + 1){
 				//if (this.canAccessIFrame(frames[f-1])){
 				headings = window.frames[f-1].document.querySelectorAll(targets);
 				for (i = 0, j = headings.length; i < j; i = i + 1) {
 					heading = headings[i];
-					id = heading.getAttribute('id') || heading.innerHTML.replace(/\s+/g, '_').toLowerCase().replace(/[&\/\\#,+()$~%.'"!:*?<>{}¹]/g, '') + '_' + i;
-					heading.tabIndex = "-1";
-					heading.setAttribute('id', id);
-					this.headingElementsArr[id] = {id: id, name: heading.tagName.toLowerCase() + ": " + this.getTextContent(heading),frame: f};
+					if (!this.isHidden(heading)){
+						id = heading.getAttribute('id') || heading.innerHTML.replace(/\s+/g, '_').toLowerCase().replace(/[&\/\\#,+()$~%.'"!:*?<>{}¹]/g, '') + '_' + i;
+						heading.tabIndex = this.findCorrectTabindex(heading);
+						heading.setAttribute('id', id);
+						this.headingElementsArr[id] = {id: id, name: heading.tagName.toLowerCase() + ": " + this.getTextContent(heading),frame: f};
+					}
 				}
 				//}
 			}
