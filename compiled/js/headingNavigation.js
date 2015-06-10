@@ -453,17 +453,37 @@ if (!Array.prototype.indexOf) {
 			}
 		},
 
-		isHidden: function (e) {
+		getStyle: function (e, prop) {
+			return e.currentStyle[prop];
+		},
+		
+		isHidden: function isHidden(el) {
+			// 9 === Node.DOCUMENT
+			if (el.nodeType === 9) {
+				return false;
+			}
+			if ((!el.parentNode || (this.getStyle(el,'display') === 'none' ||
+			(this.getStyle(el,'visibility') === 'hidden') ||
+			(el.getAttribute('aria-hidden') === 'true')))) {
+				return true;
+			}
+			return this.isHidden(el.parentNode);
+		},
+		
+		/*isHidden: function (e) {
 			if (e.offsetWidth === 0 && e.offsetHeight === 0 && e.offsetTop === 0 && e.offsetLeft === 0)
 			{
 				return true;
 			}
 			else {
-				if (e.height === '0px' && e.overflow === 'hidden' && e.position === 'absolute')
+				var style = this.getStyle(e,'visibility');
+				if (style === 'hidden')
+					return true;
+				else if (e.height === '0px' && e.overflow === 'hidden' && e.position === 'absolute')
 					return true;
 				return false;
 			}
-		},
+		},*/
 		
 		normalizeName: function (name) {
 			return name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
