@@ -288,21 +288,22 @@
 					else {
 						for (k = i + 1, l=navigableItems.length; k < l; k = k + 1) {
 							if (['H1','H2','H3','H4','H5','H6'].indexOf(navigableItems[k].tagName) === -1 ){
-								if (!this.isHidden(navigableItems[k])){
-									if (navigableItems[k].hasAttribute('tabindex')){
-										return navigableItems[k].getAttribute('tabindex');
-									}
-									else {
-										return '0';
-									}
+								if (navigableItems[k].hasAttribute('tabindex')){
+									return navigableItems[k].getAttribute('tabindex');
 								}
+								else {
+									return '0';
+								}
+
 							}
 						}
 					}
 				}
 				if (navigableItems[i].hasAttribute('tabindex')){
-					if (navigableItems[i].getAttribute('tabindex') > 0 ){
-						previousTabindex = navigableItems[i].getAttribute('tabindex');
+					if (!this.isHidden(navigableItems[i])){
+						if (navigableItems[i].getAttribute('tabindex') > 0 ){
+							previousTabindex = navigableItems[i].getAttribute('tabindex');
+						}
 					}
 				}
 			}
@@ -324,7 +325,7 @@
 					id = heading.getAttribute('id') || heading.innerHTML.replace(/\s+/g, '_').toLowerCase().replace(/[&\/\\#,+()$~%.'"!:*?<>{}¹]/g, '') + '_' + i;
 					heading.tabIndex = this.findCorrectTabindex(heading);
 					heading.setAttribute('id', id);
-					this.headingElementsArr[id] = {id: id, name: heading.tagName.toLowerCase() + ": " + this.getTextContent(heading),   frame: ''};
+					this.headingElementsArr[id] = {id: id, name: /*heading.tagName.toLowerCase() + ": " + */this.getTextContent(heading),   frame: ''};
 				}
 			}
 			for (f = 1, g = this.numberOfFrames; f <= g; f = f + 1){
@@ -336,7 +337,7 @@
 						id = heading.getAttribute('id') || heading.innerHTML.replace(/\s+/g, '_').toLowerCase().replace(/[&\/\\#,+()$~%.'"!:*?<>{}¹]/g, '') + '_' + i;
 						heading.tabIndex = this.findCorrectTabindex(heading);
 						heading.setAttribute('id', id);
-						this.headingElementsArr[id] = {id: id, name: heading.tagName.toLowerCase() + ": " + this.getTextContent(heading),frame: f};
+						this.headingElementsArr[id] = {id: id, name: /*heading.tagName.toLowerCase() + ": " + */this.getTextContent(heading),frame: f};
 					}
 				}
 				//}
