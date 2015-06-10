@@ -288,11 +288,13 @@
 					else {
 						for (k = i + 1, l=navigableItems.length; k < l; k = k + 1) {
 							if (['H1','H2','H3','H4','H5','H6'].indexOf(navigableItems[k].tagName) === -1 ){
-								if (navigableItems[k].hasAttribute('tabindex')){
-									return navigableItems[k].getAttribute('tabindex');
-								}
-								else {
-									return '0';
+								if (!this.isHidden(navigableItems[k])){
+									if (navigableItems[k].hasAttribute('tabindex')){
+										return navigableItems[k].getAttribute('tabindex');
+									}
+									else {
+										return '0';
+									}
 								}
 							}
 						}
