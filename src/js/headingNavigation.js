@@ -299,11 +299,9 @@
 					}
 				}
 				if (navigableItems[i].hasAttribute('tabindex')){
-					previousTabindex = navigableItems[i].getAttribute('tabindex');
-				}
-				else
-				{
-					previousTabindex = '0';
+					if (navigableItems[i].getAttribute('tabindex') > 0 ){
+						previousTabindex = navigableItems[i].getAttribute('tabindex');
+					}
 				}
 			}
 		},
