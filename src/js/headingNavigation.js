@@ -82,7 +82,7 @@
 					attachElement.insertBefore(div, attachElement.firstChild);
 				}
 				div.innerHTML = this.dropdownHTML;
-				this.addListeners();
+				//this.addListeners();
 			}
 			var toggle = document.getElementsByClassName('dropMenu-toggle'),
 				toggleBtn,
@@ -169,7 +169,12 @@
 		},
 
 		getStyle: function (e, prop) {
-			return e.currentStyle[prop];
+			if (e.currentStyle) //IE
+				return e.currentStyle[prop];
+			else if (document.defaultView && document.defaultView.getComputedStyle) //Firefox
+				return document.defaultView.getComputedStyle(e, "")[prop];
+			else //try and get inline style
+				return e.style[prop];
 		},
 		
 		isHidden: function isHidden(el) {
@@ -270,15 +275,8 @@
 			return name;
 		},
 		getFrames: function () {
-			var myframes = window.frames;
+			var myframes = document.getElementsByTagName("iframe");
 			this.numberOfFrames = myframes.length;
-			//add load handlers to iFrames
-			//for (var f = 1, g = this.numberOfFrames; f <= g; f = f + 1){
-				//var iframeElement= myframes[f-1];
-				//iframeElement.addEventListener("load",function () {
-				//	SkipTo.prototype.init(appConfig);
-				//},false);
-			//}
 		},
 		
 		canAccessIFrame: function(iframe) {
@@ -337,6 +335,7 @@
 				i,
 				j,
 				heading,
+				myframes,
 				id;
 			this.headingElementsArr = {};
 			for (i = 0, j = headings.length; i < j; i = i + 1) {
@@ -350,7 +349,8 @@
 			}
 			for (f = 1, g = this.numberOfFrames; f <= g; f = f + 1){
 				//if (this.canAccessIFrame(frames[f-1])){
-				headings = window.frames[f-1].document.querySelectorAll(targets);
+				myframes = document.getElementsByTagName("iframe");
+				headings = myframes[f-1].contentDocument.querySelectorAll(targets);
 				for (i = 0, j = headings.length; i < j; i = i + 1) {
 					heading = headings[i];
 					if (!this.isHidden(heading)){
@@ -529,7 +529,7 @@
 		},
 
 
-		addListeners: function () {
+		/*addListeners: function () {
 			window.addEventListener("hashchange", function () {
 				var element = document.getElementById(location.hash.substring(1));
 				if (element) {
@@ -539,7 +539,7 @@
 					element.focus();
 				}
 			}, false);
-		},
+		},*/
 		
 		clearMenus: function () {
 			var self = this;
