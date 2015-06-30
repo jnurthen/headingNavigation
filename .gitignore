@@ -50,3 +50,4 @@ Temporary Items
 node_modules
 /HTML5Application/nbproject/private/
 /nbproject/private/
+*.html
