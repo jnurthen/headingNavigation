@@ -5,7 +5,6 @@
 	"camelcase" : true,
 	"eqeqeq" : true,
 	"immed" : true,
-	"indent" : true,
 	"latedef" : true,
 	"noempty" : true,
 	"nonew" : true,
