@@ -347,9 +347,11 @@
 					this.headingElementsArr[id] = {id: id, name: /*heading.tagName.toLowerCase() + ": " + */this.getTextContent(heading),   frame: ''};
 				}
 			}
+			/*Ask document for all iframes*/
+			myframes = document.getElementsByTagName("iframe");
 			for (f = 1, g = this.numberOfFrames; f <= g; f = f + 1){
-				//if (this.canAccessIFrame(frames[f-1])){
-				myframes = document.getElementsByTagName("iframe");
+				/*Make sure iframe is accessible*/
+				try {
 				headings = myframes[f-1].contentDocument.querySelectorAll(targets);
 				for (i = 0, j = headings.length; i < j; i = i + 1) {
 					heading = headings[i];
@@ -362,6 +364,11 @@
 				}
 				//}
 			}
+				catch(err){
+					continue;
+				}
+			}
+			
 		},
 
 /*		getSections: function (targets) {

@@ -1,3 +1,19 @@
+// -----------------------------------------------------
+// Title: Skip to Options User script
+// version: 2.0.0
+// Date: 2015-06-30
+// Author: 
+// Homepage: 
+// Copyright (c) 2015 
+// -----------------------------------------------------
+//
+// ==UserScript==
+// @name headingNavigation
+// @namespace headingNavigation
+// @description This plugin provides a dynamically-generated drop-down menu that allows keyboard and screen reader users to quickly skip to the most important places on the webpage.
+// @include *
+// ==/UserScript==
+
 /*! headingNavigation - v2.0.0 - 2015-06-30
 * Copyright (c) 2015 ; Licensed BSD */
  /*@cc_on @*/
