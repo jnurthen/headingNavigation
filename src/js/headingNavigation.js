@@ -352,18 +352,17 @@
 			for (f = 1, g = this.numberOfFrames; f <= g; f = f + 1){
 				/*Make sure iframe is accessible*/
 				try {
-				headings = myframes[f-1].contentDocument.querySelectorAll(targets);
-				for (i = 0, j = headings.length; i < j; i = i + 1) {
-					heading = headings[i];
-					if (!this.isHidden(heading)){
-						id = heading.getAttribute('id') || heading.innerHTML.replace(/\s+/g, '_').toLowerCase().replace(/[&\/\\#,+()$~%.'"!:*?<>{}¹]/g, '') + '_' + i;
-						heading.tabIndex = this.findCorrectTabindex(heading);
-						heading.setAttribute('id', id);
-						this.headingElementsArr[id] = {id: id, name: /*heading.tagName.toLowerCase() + ": " + */this.getTextContent(heading),frame: f};
+					headings = myframes[f-1].contentDocument.querySelectorAll(targets);
+					for (i = 0, j = headings.length; i < j; i = i + 1) {
+						heading = headings[i];
+						if (!this.isHidden(heading)){
+							id = heading.getAttribute('id') || heading.innerHTML.replace(/\s+/g, '_').toLowerCase().replace(/[&\/\\#,+()$~%.'"!:*?<>{}¹]/g, '') + '_' + i;
+							heading.tabIndex = this.findCorrectTabindex(heading);
+							heading.setAttribute('id', id);
+							this.headingElementsArr[id] = {id: id, name: /*heading.tagName.toLowerCase() + ": " + */this.getTextContent(heading),frame: f};
+						}
 					}
 				}
-				//}
-			}
 				catch(err){
 					continue;
 				}
